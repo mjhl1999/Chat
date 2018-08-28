@@ -8,6 +8,19 @@ import pickle
 
 class ServidorChat():
 
+    clientes = []
+
+    """
+    aceptar = threading.Thread(target = aceptar)
+    procesar = threading.Thread(target = procesar)
+
+    aceptar.daemon = True
+    aceptar.start()
+
+    procesar.daemon = True
+    procesar.start()
+    """
+
     def crea_socket(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.bind(('localhost', 8800))
@@ -44,6 +57,13 @@ class ServidorChat():
                     c.send(mensaje)
             except:
                 self.clientes.remove(c)
+
+    """
+    def envia_especifico(self, mensaje, cliente):
+        c = cliente
+        c.send(mensaje)
+    """
+
 
     def desconecta(self):
         mensaje = input('->')
