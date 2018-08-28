@@ -9,7 +9,7 @@ def crea_socket(self):
         return socket
 
 def conecta(self):
-    socket.connect( ('localhost', 8800) )
+    socket.connect( ('localhost', 5000) )
     socket.send('Me he conectado al servidor')
 
 def recibe(self):
