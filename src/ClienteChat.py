@@ -18,7 +18,7 @@ def recibe(self):
     respuesta = treading.Thread(target=self.respuesta)
     respuesta.deamon = True
     respuesta.start()
-    while True
+    while True:
         try:
             datos = self.respuesta(1024)
             if datos:
