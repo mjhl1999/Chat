@@ -8,13 +8,12 @@ import pickle
 
 class ServidorChat():
 
-    clientes = []
-
-    def crea_socket(self):
+    def crea_servidor(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.bind(('localhost', 8800))
         self.socket.listen(10)
-        self.sock.setblocking(False)
+        self.socket.setblocking(False)
+        self.clientes = []
         return socket
 
     def conecta(self):
@@ -23,9 +22,13 @@ class ServidorChat():
                 conexion, direccion = self.socket.accept()
                 conexion.setblocking(False)
                 self.clientes.append(conexion)
-                print "Nueva conección establecida", direccion
+                print "Nueva conección establecida", usuario
+                hilo_envia = threading.Thread(self.envia_mensaje()).start()
+                hilo_recibe = threading.Thread(self.recibe_mensaje()).start()
+                hilo_envia.join()
+                hilo_recibe.join()
             except:
-                pass
+                sys.exit()
 
     def procesar(self):
         while True:
@@ -39,13 +42,21 @@ class ServidorChat():
                         pass
         return mensaje
 
-    def enviar_a_todos(self, mensaje, cliente):
+    def enviar(self):
         for c in self.clientes:
             try:
-                if c != cliente:
-                    c.send(mensaje)
+                c.send(bytearray(self.usuario, "utf8"))
+                c.send(bytearray(self.mensaje, "utf8"))
             except:
                 self.clientes.remove(c)
+
+    def recibe(self):
+        try:
+            for c in self.clientes:
+                self.usuario = cliente.recv(1024).decode('utf-8')
+                self.mensaje = cliente.recv(1024).decode('utf-8')
+        except:
+            print("Error en el mensaje recibido")
 
     def envia_especifico(self, mensaje, cliente):
         pass
@@ -53,19 +64,22 @@ class ServidorChat():
     def desconecta(self):
         mensaje = input('->')
         if mensaje == 'salir':
+            for cliente in self.clientes:
+                cliente.close()
             self.socket.close()
             sys.exit()
         else:
             pass
 
+def main():
+        servidor = ServidorChat()
+        servidor.crea_servidor()
+        try:
+            aceptar = threading.Thread(target=self.aceptarCon)
+            procesar = threading.Thread(target=self.procesarCon)
+        except:
+            print 'Algo salio mal'
+            servidor.desconecta()
+            sys.exit()
 
-	self.socket = crea_socket()
-
-    aceptar = threading.Thread(target=self.aceptarCon)
-    procesar = threading.Thread(target=self.procesarCon)
-
-    aceptar.daemon = True
-    aceptar.start()
-
-    procesar.daemon = True
-    procesar.start()
+main()
