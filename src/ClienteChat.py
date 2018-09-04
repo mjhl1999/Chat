@@ -17,7 +17,7 @@ class ClienteChat():
         return socket
 
     def conecta(self):
-        self.socket.connect( ('localhost', 8800) )
+        self.socket.connect( ('localhost', 8810) )
         self.socket.send('El cliente', nombre, 'se ha conectado al servidor')
 
     def recibe(self):
@@ -50,7 +50,7 @@ class ClienteChat():
             cliente = ClienteChat(usuario)
         except:
              print("Usuario no valido, intenta de nuevo.")
-              sys.exit()
+             sys.exit()
         try:
             cliente.crea_socket()
             cliente.conecta()
