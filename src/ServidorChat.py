@@ -11,7 +11,7 @@ class ServidorChat():
     def crea_servidor(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.socket.bind(('localhost', 8810))
+        self.socket.bind(('localhost', 8010))
         self.socket.listen(10)
         self.socket.setblocking(False)
         self.clientes = []
@@ -46,8 +46,8 @@ class ServidorChat():
     def enviar(self):
         for c in self.clientes:
             try:
-                c.send(bytearray(self.usuario, "utf8"))
-                c.send(bytearray(self.mensaje, "utf8"))
+                if c != cliente:
+    				c.send(msg)
             except:
                 self.clientes.remove(c)
 
@@ -78,8 +78,14 @@ def main():
     servidor.crea_servidor()
 
     try:
-        aceptar = threading.Thread(target=self.aceptarCon)
-        procesar = threading.Thread(target=self.procesarCon)
+        aceptar = threading.Thread(target=self.aceptar)
+        procesar = threading.Thread(target=self.procesar)
+
+        aceptar.daemon = True
+        aceptar.start()
+
+        procesar.daemon = True
+        procesar.start()
     except:
         print 'Algo salio mal'
         servidor.desconecta()

@@ -17,20 +17,20 @@ class ClienteChat():
         return socket
 
     def conecta(self):
-        self.socket.connect( ('localhost', 8810) )
+        self.socket.connect( ('localhost', 8010) )
         self.socket.send('El cliente', nombre, 'se ha conectado al servidor')
 
     def recibe(self):
-        while True:
-             msg = self.sock.recv(1024).decode('utf-8')
-             print msg
+    	while True:
+			try:
+				msg = self.sock.recv(1024)
+				if msg:
+					print(pickle.loads(msg))
+			except:
+				pass
 
-    def envia(self, mensaje):
-            try:
-                msg = bytearray(mensaje,"utf8")
-            except:
-                print("El mensaje no es valido")
-            self.socket.send(pickle.dumps(msg))
+    def envia(self, msg):
+        self.sock.send(pickle.dumps(msg))
 
     def desconecta(self):
         while True:
@@ -47,7 +47,7 @@ class ClienteChat():
             usuario = raw_input()
             if (usuario == None or usuario == ""):
                 raise ValueError()
-            cliente = ClienteChat(usuario)
+            cliente = ClienteChat(self, usuario)
         except:
              print("Usuario no valido, intenta de nuevo.")
              sys.exit()
