@@ -17,7 +17,7 @@ class ServidorChat():
         self.clientes = []
         return socket
 
-    def conecta(self):
+    def conectar(self):
         while True:
             try:
                 conexion, direccion = self.socket.accept()
@@ -78,11 +78,11 @@ def main():
     servidor.crea_servidor()
 
     try:
-        aceptar = threading.Thread(target=self.aceptar)
+        conectar = threading.Thread(target=self.conectar)
         procesar = threading.Thread(target=self.procesar)
 
-        aceptar.daemon = True
-        aceptar.start()
+        conectar.daemon = True
+        conectar.start()
 
         procesar.daemon = True
         procesar.start()
