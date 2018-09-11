@@ -16,7 +16,7 @@ class ServidorChat():
         self.socket.listen(10)
         clientes = []
 
-    def crea_socket(self):
+    def crea_hilo(self):
         while True:
             try:
                 conexion, direccion = self.socket.accept()
