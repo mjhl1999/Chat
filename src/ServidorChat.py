@@ -24,7 +24,6 @@ class ServidorChat():
             except:
                 sys.exit()
 
-
 def main():
     servidor = ServidorChat()
     while True:

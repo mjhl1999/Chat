@@ -7,3 +7,5 @@ class SalaDeChat():
         self.nombre = nombre
         self.propietario = propietario
         self.invitaciones = [invitaciones]
+
+    
