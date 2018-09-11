@@ -8,20 +8,18 @@ import pickle
 
 class ServidorChat():
 
-    def crea_servidor(self):
+    def __init__(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.socket.bind(('localhost', 8010))
+        self.socket.bind(('localhost', 8014))
         self.socket.listen(10)
         self.socket.setblocking(False)
         self.clientes = []
-        return socket
 
     def conectar(self):
         while True:
             try:
                 conexion, direccion = self.socket.accept()
-                conexion.setblocking(False)
                 self.clientes.append(conexion)
                 print "Nueva conección establecida", usuario
                 hilo_envia = threading.Thread(self.envia_mensaje()).start()
@@ -53,9 +51,8 @@ class ServidorChat():
 
     def recibe(self):
         try:
-            for c in self.clientes:
-                self.usuario = cliente.recv(1024).decode('utf-8')
-                self.mensaje = cliente.recv(1024).decode('utf-8')
+            self.usuario = cliente.recv(1024)
+            self.mensaje = cliente.recv(1024)
         except:
             print("Error en el mensaje recibido")
 
@@ -75,20 +72,20 @@ class ServidorChat():
 
 def main():
     servidor = ServidorChat()
-    servidor.crea_servidor()
+    servidor.__init__()
+    while True:
+        try:
+            conectar = threading.Thread(target=servidor.conectar()).start()
+            procesar = threading.Thread(target=servidor.procesar()).start()
 
-    try:
-        conectar = threading.Thread(target=self.conectar)
-        procesar = threading.Thread(target=self.procesar)
+            conectar.daemon = True
+            conectar.start()
 
-        conectar.daemon = True
-        conectar.start()
-
-        procesar.daemon = True
-        procesar.start()
-    except:
-        print 'Algo salio mal'
-        servidor.desconecta()
-        sys.exit()
+            procesar.daemon = True
+            procesar.start()
+        except:
+            print 'Algo salio mal'
+            servidor.desconecta()
+            sys.exit()
 
 main()
