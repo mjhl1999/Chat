@@ -9,15 +9,17 @@ class ClienteChat(object):
         self.nombre = nombre
         self.estado = estado
 
-    def magia(self):
+    def magia(self, host, port):
         #creando socket
         self.my_socket = socket.socket()
         #estableciendo conexion
-        self.my_socket.connect( ('localhost', 8754) )
+        self.my_socket.connect( (host, port) )
         self.my_socket.send("El cliente se a conectado")
         respuesta = self.my_socket.recv(1024)
         print (respuesta)
         self.my_socket.close()
+
+
 
 
 def main():
@@ -31,16 +33,15 @@ def main():
         cliente = ClienteChat(usuario, estado)
     else:
         raise ValueError()
-    cliente.magia()
+    print 'Ingresa el host:'
+    host = raw_input()
+    print 'Ingresa el puerto:'
+    port = input()
+    cliente.magia(host, port)
 
 main()
 
 """
-    try:
-        print 'Ingresa el host:'
-        host = raw_input()
-        print 'Ingresa el puerto:'
-        puerto = raw_input()
         cliente.crea_socket()
         cliente.conecta(host, puerto)
     except:
