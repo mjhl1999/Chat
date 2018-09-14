@@ -22,11 +22,15 @@ class ClienteChat(object):
 
 def main():
     print ('Ingresa tu nombre de usuario: ')
-    usuario = input()
-    #if (usuario == " " or usuario == ):
+    usuario = raw_input()
+    if (usuario == None or usuario == ""):
+            raise ValueError()
     print ('Elige tu estado (ACTIVE, AWAY, BUSY):')
-    estado = input()
-    cliente = ClienteChat(usuario, estado)
+    estado = raw_input()
+    if (estado == 'ACTIVE' or estado == "AWAY" or estado == "BUSY"):
+        cliente = ClienteChat(usuario, estado)
+    else:
+        raise ValueError()
     cliente.magia()
 
 main()
