@@ -33,9 +33,12 @@ class ServidorChat(object):
 
 
 def main():
-    host = str(sys.argv[1])
-    port = int(sys.argv[2])
-    servidor = ServidorChat()
-    servidor.conecta(host, port)
+    try:
+        host = str(sys.argv[1])
+        port = int(sys.argv[2])
+        servidor = ServidorChat()
+        servidor.conecta(host, port)
+    except:
+        sys.exit()
 
 main()

@@ -19,20 +19,24 @@ class ClienteChat(object):
         self.my_socket.close()
 
 def main():
-    print ('Ingresa tu nombre de usuario: ')
-    usuario = raw_input()
-    if (usuario == None or usuario == ""):
+    try:
+        print ('Ingresa tu nombre de usuario: ')
+        usuario = raw_input()
+        if (usuario == None or usuario == ""):
+                raise ValueError()
+        print ('Elige tu estado (ACTIVE, AWAY, BUSY):')
+        estado = raw_input()
+        if (estado == 'ACTIVE' or estado == "AWAY" or estado == "BUSY"):
+            cliente = ClienteChat(usuario, estado)
+        else:
             raise ValueError()
-    print ('Elige tu estado (ACTIVE, AWAY, BUSY):')
-    estado = raw_input()
-    if (estado == 'ACTIVE' or estado == "AWAY" or estado == "BUSY"):
-        cliente = ClienteChat(usuario, estado)
-    else:
-        raise ValueError()
-    print 'Ingresa el host:'
-    host = raw_input()
-    print 'Ingresa el puerto:'
-    port = input()
-    cliente.conecta(host, port)
+        print 'Ingresa el host:'
+        host = raw_input()
+        print 'Ingresa el puerto:'
+        port = input()
+        cliente.conecta(host, port)
+    except:
+        print ('Algo salio mal, intente de nuevo')
+        sys.exit()
 
 main()
