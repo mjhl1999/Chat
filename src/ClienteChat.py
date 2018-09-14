@@ -18,7 +18,7 @@ class ClienteChat():
         return socket
 
     def conecta(self, host, puerto):
-        self.socket.connect( (host, puerto) )
+        self.socket.connect( ('localhost', 8765) )
         self.socket.send('El cliente', nombre, 'se ha conectado al servidor y esta', estado)
 
 
@@ -33,10 +33,11 @@ def main():
         if (estado != "ACTIVE" or estado != "AWAY" or estado != "BUSY"):
             raise ValueError()
         cliente = ClienteChat(self, usuario, estado)
+        print (usuario, ' Te has conectado al servidor')
     except:
          print("Usuario no valido, intenta de nuevo.")
          sys.exit()
-
+"""
     try:
         print 'Ingresa el host:'
         host = raw_input()
@@ -46,5 +47,5 @@ def main():
         cliente.conecta(host, puerto)
     except:
         print("Conexión rechazada, intente de nuevo,")
-
+"""
 main()
