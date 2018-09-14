@@ -14,7 +14,7 @@ class ClienteChat(object):
         self.my_socket = socket.socket()
         #estableciendo conexion
         self.my_socket.connect( ('localhost', 8754) )
-        self.my_socket.send("El cliente se a conectado")
+        self.my_socket.send("Conexión exitosa con el servidor")
         respuesta = self.my_socket.recv(1024)
         print (respuesta)
         self.my_socket.close()
