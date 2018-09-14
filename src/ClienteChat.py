@@ -16,15 +16,16 @@ class ClienteChat(object):
         self.my_socket.connect( ('localhost', 8754) )
         self.my_socket.send("El cliente se a conectado")
         respuesta = self.my_socket.recv(1024)
-        print respuesta
+        print (respuesta)
         self.my_socket.close()
 
 
 def main():
-    print 'Ingresa tu nombre de usuario: '
-    usuario = raw_input()
-    print 'Elige tu estado (ACTIVE, AWAY, BUSY):'
-    estado = raw_input()
+    print ('Ingresa tu nombre de usuario: ')
+    usuario = input()
+    #if (usuario == " " or usuario == ):
+    print ('Elige tu estado (ACTIVE, AWAY, BUSY):')
+    estado = input()
     cliente = ClienteChat(usuario, estado)
     cliente.magia()
 
