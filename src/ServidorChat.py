@@ -21,13 +21,22 @@ class ServidorChat(object):
             print "Nueva conexion establecida"
             conexion.send("Te has conectado al servidor")
 
-        def desconecta():
-            
+        def desconecta(self):
+            mensaje = input('->')
+            if mensaje == 'salir':
+                for cliente in self.clientes:
+                    cliente.close()
+                self.socket.close()
+                sys.exit()
+            else:
+                pass
+
 
 def main():
     host = str(sys.argv[1])
     port = int(sys.argv[2])
     servidor = ServidorChat()
     servidor.conecta(host, port)
+    servidor.desconecta()
 
 main()
