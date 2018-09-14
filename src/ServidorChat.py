@@ -6,6 +6,7 @@ import sys
 
 class ServidorChat(object):
 
+    clientes = []
     def conecta(self, host, port):
         #crea nuevo socket
         self.socket = socket.socket()
@@ -14,11 +15,10 @@ class ServidorChat(object):
         #establece cantidad de peticiones en cola que maneja el socket
         self.socket.listen(10)
         #lista que almacenara a los clientes
-        clientes = []
         while True:
             #acceptando peticiones
             conexion, direccion = self.socket.accept()
-            print "Nueva conexion establecida"
+            print ("Nueva conexion establecida")
             conexion.send("Te has conectado al servidor")
 
         def desconecta(self):
@@ -39,6 +39,7 @@ def main():
         servidor = ServidorChat()
         servidor.conecta(host, port)
     except:
+        print ('Algo salio mal, intente de nuevo')
         sys.exit()
 
 main()
