@@ -37,6 +37,5 @@ def main():
     port = int(sys.argv[2])
     servidor = ServidorChat()
     servidor.conecta(host, port)
-    servidor.desconecta()
 
 main()
