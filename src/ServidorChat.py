@@ -40,9 +40,9 @@ class ServidorChat(object):
     def aceptar(self):
 		while True:
 			try:
-				conn, addr = self.socket.accept()
-				conn.setblocking(False)
-				self.clientes.append(conn)
+				conexion, direccion = self.socket.accept()
+				conexion.setblocking(False)
+				self.clientes.append(conexion)
 			except:
 				pass
 

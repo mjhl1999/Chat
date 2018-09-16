@@ -28,9 +28,9 @@ class ClienteChat(object):
     def recibe(self):
 		while True:
 			try:
-				data = self.socket.recv(1024)
-				if data:
-					print(pickle.loads(data))
+				mensaje = self.socket.recv(1024)
+				if mensaje:
+					print(pickle.loads(mensaje))
 			except:
 				pass
 
