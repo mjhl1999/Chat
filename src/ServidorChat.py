@@ -8,81 +8,67 @@ import pickle
 
 class ServidorChat(object):
 
-    def conecta(self, host, port):
+    def __init__(self, host, port):
         #lista que almacenara a los clientes
         self.clientes = []
-        #crea nuevo socket
-        self.socket = socket.socket()
-        #establece conexión con el cliente
-        self.socket.bind( (host, port) )
-        #establece cantidad de peticiones en cola que maneja el socket
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #creando socket que establece conexión hasta para 10000 clientes
+        self.socket.bind((str(host), int(port)))
         self.socket.listen(10000)
-        #hilo tipo daemon para el servidor
+        self.socket.setblocking(False)
+        #hilos tipo daemon para el servidor
         aceptar = threading.Thread(target=self.aceptar)
+        procesar = threading.Thread(target=self.procesar)
         aceptar.daemon = True
         aceptar.start()
-        procesar = threading.Thread(target=self.procesar)
         procesar.daemon = True
         procesar.start()
+        # DISCONNECT
         print 'Teclee "DISCONNECT" para cerrar el servidor.'
         while True:
-            mensaje = raw_input('-> ')
-            if mensaje == 'DISCONNECT':
-                self.socket.close()
-                sys.exit()
-            else:
-                pass
+			mensaje = raw_input()
+			if mensaje == 'DISCONNECT':
+				self.socket.close()
+				sys.exit()
+			else:
+				pass
 
+    def mensaje_publico(self, mensaje, cliente):
+		for c in self.clientes:
+			try:
+				if c != cliente:
+					c.send(mensaje)
+			except:
+				self.clientes.remove(c)
 
     def aceptar(self):
-        #acceptando peticiones de clientes
         while True:
-            conexion, direccion = self.socket.accept()
-            print ("Nueva conexion establecida")
-            conexion.send("Te has conectado al servidor")
-            #tripleta =  conexion.recv(1024)
-            #self.clientes.append(str(tripleta))
-            self.clientes.append(conexion)
+            try:
+                conexion, direccion = self.socket.accept()
+                conexion.send('Te has conectado al servidor')
+                print ('Nueva conexión establecida')
+                conexion.setblocking(False)
+                self.clientes.append(conexion)
+            except:
+                pass
 
     def procesar(self):
-        while True:
-            if(len(self.clientes) > 0):
-                for i in self.clientes:
-                    try:
-                        mensaje = i.recv(1024)
-                        if mensaje:
-                            mensaje = str(mensaje)
-                            self.envia_publico(mensaje,i)
-                            print mensaje
-                    except:
-                        pass
-
-        def ver_usuarios(self):
-            peticion = conexion.recv(1024)
-            if (peticion == 'IDENTIFY'):
-                conexion.send(clientes)
-
-        def status(self, estado):
-            pass
-
-        def ussers(self):
-            pass
-
-        def envia_publico(self, mensaje):
-            for i in self.clientes:
-                try:
-                    if c != cliente: #evita que te autoenvies un mensaje
-                        c.send(pickle.dumps(mensaje))
-                except:
-                    self.clientes.remove(i)
+		while True:
+			if len(self.clientes) > 0:
+				for c in self.clientes:
+					try:
+						datos = c.recv(1024)
+						if datos:
+							self.mensaje_publico(datos,c)
+					except:
+						pass
 
 
 def main():
     #try:
     host = str(sys.argv[1])
     port = int(sys.argv[2])
-    servidor = ServidorChat()
-    servidor.conecta(host, port)
+    servidor = ServidorChat(host, port)
     #except:
     print ('Algo salio mal, intente de nuevo')
     sys.exit()

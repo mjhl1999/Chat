@@ -9,33 +9,38 @@ import sys
 
 class ClienteChat(object):
 
-    def __init__ (self, nombre, estado, host, port):
+    def __init__ (self, nombre, estado, host, puerto):
         self.nombre = nombre
         self.estado = estado
-        #creando socket
-        self.socket = socket.socket()
-        #estableciendo conexion
-        self.socket.connect( (host, port) )
+        #creando y estableciendo conexion con el cliente
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.connect((str(host), int(puerto)))
         #recibe un mensaje desde el sevidor que nos dice si nos hemos conectado
         respuesta = self.socket.recv(1024)
         print (respuesta)
-        #envia la informacion del cliente al servidor
-        #self.socket.send(str(tripleta))
-        self.socket.close()
-        #hilo tipo daemon para el cliente
-        #mensaje = threading.Thread(target=self.recibe)
-        #mensaje.daemon = True
-        #mensaje.start()
-        #hilo principal y DISCONNECT
-        """
+        mensaje = threading.Thread(target=self.mensaje_recibido)
+        mensaje.daemon = True
+        mensaje.start()
         while True:
-            mensaje = raw_input('-> ')
-            if (mensaje != 'DISCONNECT'):
-                self.envia_publico(str(mensaje))
-            else:
-                self.socket.close()
-                sys.exit()
-        """
+			mensaje = raw_input()
+			if mensaje != 'DISCONNECT':
+				self.envia_mensaje(mensaje)
+			else:
+				self.socket.close()
+				sys.exit()
+
+    def mensaje_recibido(self):
+		while True:
+			try:
+				data = self.socket.recv(1024)
+				if data:
+					print(pickle.loads(data))
+			except:
+				pass
+
+    def envia_mensaje(self, mensaje):
+		self.socket.send(pickle.dumps(mensaje))
+
 def main():
     #try:
     print ('Ingresa tu nombre de usuario: ')
