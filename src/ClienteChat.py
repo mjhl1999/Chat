@@ -12,12 +12,15 @@ class ClienteChat(object):
     def __init__ (self, nombre, estado, host, puerto):
         self.nombre = nombre
         self.estado = estado
+        self.cliente = [nombre, estado]
         #creando y estableciendo conexion con el cliente
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((str(host), int(puerto)))
         #recibe un mensaje desde el sevidor que nos dice si nos hemos conectado
         respuesta = self.socket.recv(1024)
         print (respuesta)
+        print self.cliente
+        self.envia_mensaje(self.cliente)
         mensaje = threading.Thread(target=self.mensaje_recibido)
         mensaje.daemon = True
         mensaje.start()
@@ -32,9 +35,9 @@ class ClienteChat(object):
     def mensaje_recibido(self):
 		while True:
 			try:
-				data = self.socket.recv(1024)
+				datos = self.socket.recv(1024)
 				if data:
-					print(pickle.loads(data))
+					print(pickle.loads(datos))
 			except:
 				pass
 

@@ -33,6 +33,17 @@ class ServidorChat(object):
 			else:
 				pass
 
+    def lista_de_clientes(self, cliente):
+        cliente.send(self.clientes)
+        '''
+        m = len(clientes)
+        for i in range(1,m):
+            cliente.send([self.clientes[i][0], self.clientes[i][1]])
+        '''
+
+    def mensaje_privado(self, user, mensaje, cliente):
+        pass
+
     def mensaje_publico(self, mensaje, cliente):
 		for c in self.clientes:
 			try:
@@ -47,8 +58,12 @@ class ServidorChat(object):
                 conexion, direccion = self.socket.accept()
                 conexion.send('Te has conectado al servidor')
                 print ('Nueva conexión establecida')
+                cliente = conexion.recv(1024)
+                cliente = pickle.loads(cliente)
+                cliente.append(conexion)
                 conexion.setblocking(False)
-                self.clientes.append(conexion)
+                self.clientes.append(cliente)
+                print clientes
             except:
                 pass
 
