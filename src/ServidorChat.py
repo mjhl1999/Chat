@@ -63,7 +63,7 @@ class ServidorChat(object):
                 cliente.append(conexion)
                 conexion.setblocking(False)
                 self.clientes.append(cliente)
-                print clientes
+                print self.clientes
             except:
                 pass
 
