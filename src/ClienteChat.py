@@ -39,7 +39,7 @@ class ClienteChat(object):
 				pass
 
     def envia_mensaje(self, mensaje):
-		self.socket.send(pickle.dumps(mensaje))
+		self.socket.send(pickle.dumps((mensaje)))
 
 def main():
     #try:
