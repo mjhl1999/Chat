@@ -53,15 +53,17 @@ class ServidorChat(object):
                 pass
 
     def procesar(self):
-		while True:
-			if len(self.clientes) > 0:
-				for c in self.clientes:
-					try:
-						datos = c.recv(1024)
-						if datos:
+        while True:
+            if len(self.clientes) > 0:
+                for c in self.clientes:
+                    try:
+                        datos = pickle(c.recv(1024))
+                        datos = datos.split(' ')
+                        print datos
+                        if datos:
 							self.mensaje_publico(datos,c)
-					except:
-						pass
+                    except:
+                        pass
 
 
 def main():

@@ -9,9 +9,9 @@ import sys
 
 class ClienteChat(object):
 
-    def __init__ (self, nombre, estado, host, puerto):
-        self.nombre = nombre
-        self.estado = estado
+    def __init__ (self,host, puerto):
+        self.nombre = ""
+        self.estado = ""
         #creando y estableciendo conexion con el cliente
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((str(host), int(puerto)))
@@ -43,7 +43,7 @@ class ClienteChat(object):
 
 def main():
     #try:
-    print ('Ingresa tu nombre de usuario: ')
+    """print ('Ingresa tu nombre de usuario: ')
     usuario = raw_input()
     if (usuario == None or usuario == ""):
         raise ValueError()
@@ -52,16 +52,16 @@ def main():
     estado = raw_input()
     if (estado != 'ACTIVE' and estado != "AWAY" and estado != "BUSY"):
         raise ValueError()
-        print 'Estado Invalido'
+        print 'Estado Invalido'  """
     print 'Ingresa el host:'
     host = raw_input()
     print 'Ingresa el puerto:'
     port = input()
-    #identificador = str(random.randint(1, 10000))
-    #tripleta = (usuario, estado, identificador)
-    cliente = ClienteChat(usuario, estado, host, port)
+        #identificador = str(random.randint(1, 10000))
+        #tripleta = (usuario, estado, identificador)
+    cliente = ClienteChat(host, port)
     #except:
-    #    print ('Algo salio mal, intente de nuevo')
-    #    sys.exit()
+     #  print ('Algo salio mal, intente de nuevo')
+      # sys.exit()
 
 main()
