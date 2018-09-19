@@ -4,7 +4,8 @@
 import socket
 import sys
 import threading
-import pickle
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 class ServidorChat(object):
 
@@ -34,11 +35,11 @@ class ServidorChat(object):
 				pass
 
     def mensaje_publico(self, mensaje, cliente):
-		for c in self.clientes:
-			try:
-				if c != cliente:
-					c.send(mensaje)
-			except:
+        for c in self.clientes:
+            try:
+                if c != cliente:
+                    c.send(mensaje)
+            except:
 				self.clientes.remove(c)
 
     def aceptar(self):
@@ -53,15 +54,18 @@ class ServidorChat(object):
                 pass
 
     def procesar(self):
-		while True:
-			if len(self.clientes) > 0:
-				for c in self.clientes:
-					try:
-						datos = c.recv(1024)
-						if datos:
-							self.mensaje_publico(datos,c)
-					except:
-						pass
+        while True:
+            if len(self.clientes) > 0:
+                for c in self.clientes:
+                    try:
+                        d = c.recv(1024)
+                        dat = d.encode('UTF-8')
+                        datos = dat.rstrip()
+                        datoss = datos.split(' ',1)
+                        if datoss.pop(0) == 'PUBLICMESSAGE':
+                            self.mensaje_publico(datoss.pop(),c)
+                    except:
+                        pass
 
 
 def main():
