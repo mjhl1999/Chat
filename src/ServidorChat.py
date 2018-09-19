@@ -57,11 +57,11 @@ class ServidorChat(object):
             if len(self.clientes) > 0:
                 for c in self.clientes:
                     try:
-                        datos = pickle(c.recv(1024))
-                        datos = datos.split(' ')
-                        print datos
-                        if datos:
-							self.mensaje_publico(datos,c)
+                        datos = pickle.loads(c.recv(1024))
+                        datoss = datos.split(' ')
+                        if datoss[0] == 'PUBLICMESSAGE':
+                            print datoss
+                            self.mensaje_publico(datos,c)
                     except:
                         pass
 
