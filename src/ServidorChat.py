@@ -61,9 +61,9 @@ class ServidorChat(object):
                         d = c.recv(1024)
                         dat = d.encode('UTF-8')
                         datos = dat.rstrip()
-                        datoss = datos.split(' ',1)
-                        if datoss:
-                            self.mensaje_publico(datos,c)
+                        datoss = datos.split(' ', 1)
+                        if datoss[0] == "PUBLICMESSAGE":
+                            self.mensaje_publico(datoss.pop(),c)
                     except:
                         pass
 
