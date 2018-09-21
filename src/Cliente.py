@@ -3,9 +3,8 @@
 
 class Cliente(object):
 
-    def __init__(self, socket, ip):
+    def __init__(self, socket):
         self.socket = socket
-        self.ip = ip
         self.nombre = ""
         self.estado = ""
 
@@ -23,6 +22,3 @@ class Cliente(object):
 
     def get_estado(self):
         return self.estado
-    
-    def get_ip(self):
-        return self.ip

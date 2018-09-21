@@ -9,6 +9,8 @@ import sys
 class ClienteChat(object):
 
     def __init__ (self,host, puerto):
+        self.nombre = ''
+        self.estado = ''
         #creando y estableciendo conexion con el cliente
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((str(host), int(puerto)))

@@ -4,6 +4,7 @@
 import socket
 import sys
 import threading
+from Cliente import Cliente
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -34,6 +35,14 @@ class ServidorChat(object):
 			else:
 				pass
 
+
+    def identificar(self, nombre, cliente):
+         set_nombre(nombre)
+
+    def asigna_estado(self, estado, cliente):
+        pass
+        #self.estado = estado
+
     def mensaje_publico(self, mensaje, cliente):
         for c in self.clientes:
             try:
@@ -49,7 +58,9 @@ class ServidorChat(object):
                 conexion.send('Te has conectado al servidor')
                 print ('Nueva conexión establecida')
                 conexion.setblocking(False)
-                self.clientes.append(conexion)
+                cliente = Cliente(conexion)
+                self.clientes.append(cliente)
+                print clientes
             except:
                 pass
 
@@ -57,15 +68,15 @@ class ServidorChat(object):
         while True:
             if len(self.clientes) > 0:
                 for c in self.clientes:
-                    try:
-                        d = c.recv(1024)
-                        dat = d.encode('UTF-8')
-                        datos = dat.rstrip()
-                        datoss = datos.split(' ', 1)
-                        if datoss[0] == "PUBLICMESSAGE":
-                            self.mensaje_publico(datoss.pop(),c)
-                    except:
-                        pass
+                    #try:
+                    d = c.get_socket(recv(1024))
+                    dat = d.encode('UTF-8')
+                    datos = dat.rstrip()
+                    datoss = datos.split(' ', 1)
+                    if datoss[0] == "PUBLICMESSAGE":
+                        self.mensaje_publico(datoss.pop(),c)
+                    #except:
+                        #pass
 
 
 def main():
